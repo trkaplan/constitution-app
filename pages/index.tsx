@@ -30,16 +30,16 @@ const Step: FC<StepProps> = ({index, label, cta, active, enabled, onClick}) => {
 }
 
 const Home: NextPage = () => {
-  const [constitution, setConstitution] = useState<string>();
+  const [charter, setCharter] = useState<string>();
   const [stepIndex, setStepIndex] = useState(0);
-  const [address, setAddress] = useState<string>();
+  const [address, setAddress] = useState<string>(); 
   const [nftCount, setNftCount] = useState<number>();
   const [approvalUrl, setApprovalUrl] = useState<string>();
 
   useEffect(() => {
     fetch(`https://ipfs.io/ipfs/${IPFS_HASH}`)
       .then((res) => res.text())
-      .then(setConstitution);
+      .then(setCharter);
   }, []);
 
   const provider = useMemo(
@@ -82,10 +82,10 @@ const Home: NextPage = () => {
     setStepIndex(3);
   }, [address]);
 
-  const approveConstitution = useCallback(async () => {
+  const ratifyCharter = useCallback(async () => {
     if (!provider) return;
     const payload = {
-      message: 'I approve the CityDAO constitution',
+      message: 'I ratify the CityDAO charter',
       ipfsHash: IPFS_HASH,
     };
 
@@ -101,23 +101,23 @@ const Home: NextPage = () => {
   return (
     <main>
       <h1 className="text-center">
-        <span className="color-primary">CityDAO</span> Constitution
+        <span className="color-primary">CityDAO</span> Charter
       </h1>
       <p className="text-center mt-1">
-        Here you can read the CityDAO constitution. If you hold Citizen NFTs you can vote to approve the constitution at the bottom of the page. All approval votes are stored on <a href={GITHUB_APPROVALS_URL} target="_blank" rel="noreferrer">our repo on Github</a>.
+        Here you can read the CityDAO charter. If you hold Citizen NFTs you can vote to ratify the charter at the bottom of the page. All ratifications are stored on <a href={GITHUB_APPROVALS_URL} target="_blank" rel="noreferrer">our repo on Github</a>.
       </p>
 
-      <section className="constitution-container">
-        {!!constitution && (
+      <section className="charter-container">
+        {!!charter && (
           <p>
-            {constitution}
+            {charter}
           </p>
         )}
 
       </section>
       <section className="text-center">
         <p className="opacity-50">
-          This constitution is stored forever on <a target="_blank" href={`https://ipfs.io/ipfs/${IPFS_HASH}`} rel="noreferrer">IPFS</a>
+          This charter is stored forever on <a target="_blank" href={`https://ipfs.io/ipfs/${IPFS_HASH}`} rel="noreferrer">IPFS</a>
         </p>
         <a target="_blank" href={`https://ipfs.io/ipfs/${IPFS_HASH}`} className="text-sm text-italic opacity-50" rel="noreferrer">
           IPFS hash: {IPFS_HASH}
@@ -139,18 +139,18 @@ const Home: NextPage = () => {
           label={(
             <div>
               <p>
-                Approve the CityDAO Constitution (Citizen NFTs needed)
+                Ratify the CityDAO Charter (Citizen NFTs needed)
               </p>
               <p className="text-sm text-italic opacity-50">
-                When approving the constitution, you will sign a message with the constitution IPFS hash, and the message signature will be stored in <a href={GITHUB_APPROVALS_URL}
+                When ratifying the charter, you will sign a message with the charter IPFS hash, and the message signature will be stored in <a href={GITHUB_APPROVALS_URL}
                 target="_blank" rel="noreferrer">this Github project</a>
               </p>
             </div>
           )}
-          cta={`Approve (${nftCount} ${nftCount === 1 ? 'NFT' : 'NFT2'})`}
+          cta={`Ratify (${nftCount} ${nftCount === 1 ? 'NFT' : 'NFT2'})`}
           enabled={!!nftCount}
           active={stepIndex === 1}
-          onClick={approveConstitution}
+          onClick={ratifyCharter}
         />
         <Step
           index={2}
@@ -166,7 +166,7 @@ const Home: NextPage = () => {
               </p>
               {!!approvalUrl && (
                 <p className="text-sm text-italic opacity-50">
-                  See your approval and signature <a href={approvalUrl} target="_blank" rel="noreferrer">here</a>
+                  See your ratification and signature <a href={approvalUrl} target="_blank" rel="noreferrer">here</a>
                 </p>
               )}
             </div>
