@@ -2,12 +2,11 @@ import { useMemo, useState, useEffect, useCallback, ReactNode, FC } from 'react'
 import { NextPage } from 'next'
 import { ethers } from 'ethers'
 import { Iframe } from '../components/Iframe'
-const IPFS_HASH = 'QmNQNLZW5d3EgJnNsHDjVLB9Yjai8sTaXSUn3LS1uV2baJ';
+const IPFS_HASH = 'QmbAV7dZithaG4Fr85yNZUEebF26tmxcNrDKv948kPXUKM';
 const CITIZEN_NFT_CONTRACT_ADDRESS = '0x7eef591a6cc0403b9652e98e88476fe1bf31ddeb';
 const CITIZEN_NFT_IDS = [7, 42, 69];
 const GITHUB_APPROVALS_URL = 'https://github.com/davidfant/constitution-approvals';
-//const CHARTER_IPFS_URL= `https://ipfs.io/ipfs/${IPFS_HASH}`;
-const CHARTER_IPFS_URL = '/mock_html/CityDAOCharterv.1.html';
+const CHARTER_IPFS_URL= `https://ipfs.io/ipfs/${IPFS_HASH}`;
 
 interface StepProps {
   index: number;
