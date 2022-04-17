@@ -30,7 +30,7 @@ const Step: FC<StepProps> = ({index, label, cta, active, enabled, onClick}) => {
 }
 
 const Home: NextPage = () => {
-  const [stepIndex, setStepIndex] = useState(0);
+  const [stepIndex, setStepIndex] = useState(-1);
   const [address, setAddress] = useState<string>(); 
   const [nftCount, setNftCount] = useState<number>();
   const [approvalUrl, setApprovalUrl] = useState<string>();
@@ -101,9 +101,13 @@ const Home: NextPage = () => {
         <span className="color-primary">CityDAO</span> Charter
       </h1>
       <p className="text-center mt-1">
-        Here you can read the CityDAO charter. If you hold Citizen NFTs you can vote to ratify the charter at the bottom of the page. All ratifications are stored on <a href={GITHUB_APPROVALS_URL} target="_blank" rel="noreferrer">our repo on Github</a>.
+        Here you can read the CityDAO charter. If you hold Citizen NFTs you can vote to ratify the charter on <a href="https://snapshot.org/#/daocity.eth/proposal/0xc6596e12ae6391d81d73cbeee16254ebe9592fb2c47ba9bd1c2dd2861ed3c70b" target="_blank" rel="noreferrer">Snapshot</a>.
       </p>
-
+      <p>
+      <form className="vote-form" action="https://snapshot.org/#/daocity.eth/proposal/0xc6596e12ae6391d81d73cbeee16254ebe9592fb2c47ba9bd1c2dd2861ed3c70b">
+        <button type="submit">Vote on Snapshot</button>
+      </form>
+      </p>
       <section className="charter-container">
         {!isIframeLoaded && <b className="loader-bar">Loading...</b>}
         <Iframe
