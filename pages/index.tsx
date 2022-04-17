@@ -1,12 +1,13 @@
 import { useMemo, useState, useEffect, useCallback, ReactNode, FC } from 'react';
-import Image from 'next/image'
 import { NextPage } from 'next'
 import { ethers } from 'ethers'
-
+import { Iframe } from '../components/Iframe'
 const IPFS_HASH = 'QmNQNLZW5d3EgJnNsHDjVLB9Yjai8sTaXSUn3LS1uV2baJ';
 const CITIZEN_NFT_CONTRACT_ADDRESS = '0x7eef591a6cc0403b9652e98e88476fe1bf31ddeb';
 const CITIZEN_NFT_IDS = [7, 42, 69];
 const GITHUB_APPROVALS_URL = 'https://github.com/davidfant/constitution-approvals';
+//const CHARTER_IPFS_URL= `https://ipfs.io/ipfs/${IPFS_HASH}`;
+const CHARTER_IPFS_URL = '/mock_html/CityDAOCharterv.1.html';
 
 interface StepProps {
   index: number;
@@ -30,18 +31,15 @@ const Step: FC<StepProps> = ({index, label, cta, active, enabled, onClick}) => {
 }
 
 const Home: NextPage = () => {
-  const [charter, setCharter] = useState<string>();
   const [stepIndex, setStepIndex] = useState(0);
   const [address, setAddress] = useState<string>(); 
   const [nftCount, setNftCount] = useState<number>();
   const [approvalUrl, setApprovalUrl] = useState<string>();
+  const [isIframeLoaded, setIsIframeLoaded] = useState<boolean>(false);
 
-  useEffect(() => {
-    fetch(`https://ipfs.io/ipfs/${IPFS_HASH}`)
-      .then((res) => res.text())
-      .then(setCharter);
-  }, []);
-
+  const handleLoad = () => {
+    setIsIframeLoaded(true);
+  }
   const provider = useMemo(
     () =>
       typeof window !== 'undefined'
@@ -108,12 +106,13 @@ const Home: NextPage = () => {
       </p>
 
       <section className="charter-container">
-        {!!charter && (
-          <p>
-            {charter}
-          </p>
-        )}
-
+        {!isIframeLoaded && <b className="loader-bar">Loading...</b>}
+        <Iframe
+          width="100%"
+          height="100%"
+          url={CHARTER_IPFS_URL}
+          onLoad={handleLoad}
+        />
       </section>
       <section className="text-center">
         <p className="opacity-50">
@@ -147,7 +146,7 @@ const Home: NextPage = () => {
               </p>
             </div>
           )}
-          cta={`Ratify (${nftCount} ${nftCount === 1 ? 'NFT' : 'NFT2'})`}
+          cta={`Ratify (${nftCount} ${nftCount === 1 ? 'NFT' : 'NFTs'})`}
           enabled={!!nftCount}
           active={stepIndex === 1}
           onClick={ratifyCharter}
